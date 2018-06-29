@@ -8,6 +8,8 @@ package rentacars.webcomponent.forni.Forni.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import rentacars.webcomponent.forni.Forni.models.Arriendo;
+import rentacars.webcomponent.forni.Forni.repository.ArriendoRepository;
 
 /**
  *
@@ -25,44 +28,72 @@ import rentacars.webcomponent.forni.Forni.models.Arriendo;
 @RestController
 @RequestMapping("/arriendo")
 public class ArriendoController {
-    
+
+    @Autowired
+    private ArriendoRepository arriendoRepository;
+
     @GetMapping()
-    public List<Arriendo> list() {
-        return Arriendo.listaArriendo;
+    public Iterable<Arriendo> list() {
+
+        return arriendoRepository.findAll();
     }
-    
+
     @GetMapping("/{id}")
-    public Arriendo get(@PathVariable String id) {
-        Arriendo A = new Arriendo();
-        return A.buscaArriendo(Integer.parseInt(id));
+    public ResponseEntity<Arriendo> get(@PathVariable String id) {
+        Optional<Arriendo> aOptional = arriendoRepository.findById(Integer.parseInt(id));
+
+        if (aOptional.isPresent()) {
+            Arriendo aEncontrado = aOptional.get();
+            return new ResponseEntity<>(aEncontrado, HttpStatus.FOUND);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
     }
-    
+
     @PutMapping("/{id}")
     public ResponseEntity<Arriendo> put(@PathVariable String id, @RequestBody Arriendo editarArriendo) {
-         Arriendo A = new Arriendo();
-         
-        return new ResponseEntity<>(A.editarArriendo(Integer.parseInt(id), editarArriendo),HttpStatus.OK);
+
+        Optional<Arriendo> aOptional = arriendoRepository.findById(Integer.parseInt(id));
+
+        if (aOptional.isPresent()) {
+            Arriendo aEncontrado = aOptional.get();
+
+            editarArriendo.setIdArriendo(aEncontrado.getIdArriendo());
+            arriendoRepository.save(editarArriendo);
+            return new ResponseEntity<>(editarArriendo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
     }
-    
+
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Arriendo nuevoArriendo) {
-        Arriendo A = new Arriendo();
-        if (A.nuevaArriendo(nuevoArriendo)) {
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else  return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        
-        
+        nuevoArriendo = arriendoRepository.save(nuevoArriendo);
+
+        Optional<Arriendo> aOptional = arriendoRepository.findById(nuevoArriendo.getIdArriendo());
+
+        if (aOptional.isPresent()) {
+            Arriendo aEncontrado = aOptional.get();
+            return new ResponseEntity<>(aEncontrado, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
-        Arriendo A = new Arriendo();
-        
-        if (A.eliminarArriendo(Integer.parseInt(id))) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else  return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        
-        
+        Optional<Arriendo> aOptional = arriendoRepository.findById(Integer.parseInt(id));
+
+        if (aOptional.isPresent()) {
+            Arriendo aEncontrado = aOptional.get();
+
+            arriendoRepository.deleteById(aEncontrado.getIdArriendo());
+            return new ResponseEntity<>(aEncontrado, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
+
     }
-    
+
 }

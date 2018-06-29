@@ -32,6 +32,8 @@ public class Vehiculo {
     @ManyToOne
     @JoinColumn(name = "id_tipo_vehiculo")
     private TipoVehiculo tipoVehiculo;
+        @ManyToOne
+    @JoinColumn(name = "id_version")
     private Version version;
 
     public int getIdVehiculo() {

@@ -34,7 +34,7 @@ public class Persona {
     private String direccion1;
     private String direccion2;
     @ManyToOne
-    @JoinColumn(name = "id_tipo_ciudad")
+    @JoinColumn(name = "id_ciudad")
     private Ciudad ciudad;
 
     @ManyToOne

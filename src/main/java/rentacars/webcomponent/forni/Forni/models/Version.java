@@ -5,16 +5,13 @@
  */
 package rentacars.webcomponent.forni.Forni.models;
 
-import rentacars.webcomponent.forni.Forni.models.Modelo;
-import rentacars.webcomponent.forni.Forni.models.Combustible;
-import rentacars.webcomponent.forni.Forni.models.Carroceria;
-import rentacars.webcomponent.forni.Forni.models.Transmision;
-import rentacars.webcomponent.forni.Forni.models.Traccion;
 import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -22,7 +19,7 @@ import javax.persistence.Table;
  * @author Gerardo
  */
 @Entity
-@Table(name = "vehiculo")
+@Table(name = "version")
 public class Version {
 
     @Id
@@ -40,10 +37,20 @@ public class Version {
     private boolean cierreCentralizado;
     private boolean alzaVidriosElectricos;
     private boolean camarasRetroceso;
+    @ManyToOne
+    @JoinColumn(name = "id_combustible")
     private Combustible combustible;
+    @ManyToOne
+    @JoinColumn(name = "id_carroceria")
     private Carroceria carroceria;
+    @ManyToOne
+    @JoinColumn(name = "id_transmision")
     private Transmision transmision;
+    @ManyToOne
+    @JoinColumn(name = "id_traccion")
     private Traccion traccion;
+    @ManyToOne
+    @JoinColumn(name = "id_modelo")
     private Modelo modelo;
 
     public int getIdVersion() {

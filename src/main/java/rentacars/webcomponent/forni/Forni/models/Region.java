@@ -19,13 +19,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "region")
 public class Region {
- @Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idRegion;
     private String nombreRegion;
     private String detalle;
-
- 
 
     public int getIdRegion() {
         return idRegion;
@@ -64,6 +63,5 @@ public class Region {
         this.nombreRegion = nombreRegion;
         this.detalle = detalle;
     }
-
 
 }

@@ -17,15 +17,14 @@ import javax.persistence.Table;
  * @author Gerardo
  */
 @Entity
-@Table(name = "arriendo")
+@Table(name = "marca")
 public class Marca {
-    private int idMarca;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idMarca;
     private String nombreMarca;
     private String detalle;
-
-
 
     public int getIdMarca() {
         return idMarca;

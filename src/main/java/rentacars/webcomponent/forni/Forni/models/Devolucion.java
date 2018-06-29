@@ -30,7 +30,7 @@ public class Devolucion {
     private Date fechaDevolucion;
     private Time horaDevolucion;
     @ManyToOne
-    @JoinColumn(name = "id_tipo_arriendo")
+    @JoinColumn(name = "id_arriendo")
     private Arriendo arriendo;
 
     public int getIdDevolucion() {
