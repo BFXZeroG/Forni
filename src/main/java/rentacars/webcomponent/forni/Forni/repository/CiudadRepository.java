@@ -11,6 +11,6 @@ import rentacars.webcomponent.forni.Forni.models.Ciudad;
  *
  * @author mxrni
  */
-public interface CiudadRepository extends CrudRepository<CiudadRepository, Integer> {
+public interface CiudadRepository extends CrudRepository<Ciudad, Integer> {
     
 }

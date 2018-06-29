@@ -12,6 +12,6 @@ import rentacars.webcomponent.forni.Forni.models.Arriendo;
  *
  * @author mxrni
  */
-public interface ArriendoRepository extends CrudRepository<ArriendoRepository,Integer> {
+public interface ArriendoRepository extends CrudRepository<Arriendo,Integer> {
     
 }

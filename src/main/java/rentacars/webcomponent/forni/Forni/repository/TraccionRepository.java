@@ -12,6 +12,6 @@ import rentacars.webcomponent.forni.Forni.models.Traccion;
  *
  * @author mxrni
  */
-public interface TraccionRepository extends CrudRepository<TraccionRepository,Integer> {
+public interface TraccionRepository extends CrudRepository<Traccion,Integer> {
     
 }

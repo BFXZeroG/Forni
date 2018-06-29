@@ -12,6 +12,6 @@ import rentacars.webcomponent.forni.Forni.models.Version;
  *
  * @author mxrni
  */
-public interface VersionRepository extends CrudRepository<VersionRepository, Integer> {
+public interface VersionRepository extends CrudRepository<Version, Integer> {
     
 }

@@ -13,6 +13,6 @@ import rentacars.webcomponent.forni.Forni.models.Modelo;
  *
  * @author mxrni
  */
-public interface ModeloRepository extends CrudRepository<ModeloRepository, Integer> {
+public interface ModeloRepository extends CrudRepository<Modelo, Integer> {
     
 }

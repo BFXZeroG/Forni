@@ -11,6 +11,6 @@ import rentacars.webcomponent.forni.Forni.models.Marca;
  *
  * @author mxrni
  */
-public interface MarcaRepository extends CrudRepository<MarcaRepository, Integer> {
+public interface MarcaRepository extends CrudRepository<Marca, Integer> {
     
 }

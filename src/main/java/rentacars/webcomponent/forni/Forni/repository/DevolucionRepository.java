@@ -12,6 +12,6 @@ import rentacars.webcomponent.forni.Forni.models.Devolucion;
  *
  * @author mxrni
  */
-public interface DevolucionRepository extends CrudRepository<DevolucionRepository, Integer> {
+public interface DevolucionRepository extends CrudRepository<Devolucion, Integer> {
     
 }

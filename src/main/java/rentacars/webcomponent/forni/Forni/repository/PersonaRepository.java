@@ -12,6 +12,6 @@ import rentacars.webcomponent.forni.Forni.models.Persona;
  *
  * @author mxrni
  */
-public interface PersonaRepository extends CrudRepository<PersonaRepository, Integer> {
+public interface PersonaRepository extends CrudRepository<Persona, Integer> {
     
 }

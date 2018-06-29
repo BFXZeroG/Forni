@@ -13,6 +13,6 @@ import rentacars.webcomponent.forni.Forni.models.TipoVehiculo;
  *
  * @author mxrni
  */
-public interface TipoVehiculoRepository extends CrudRepository<TipoVehiculoRepository, Integer> {
+public interface TipoVehiculoRepository extends CrudRepository<TipoVehiculo, Integer> {
     
 }

@@ -12,6 +12,6 @@ import rentacars.webcomponent.forni.Forni.models.Combustible;
  *
  * @author mxrni
  */
-public interface CombustibleRepository extends CrudRepository<CombustibleRepository, Integer>{
+public interface CombustibleRepository extends CrudRepository<Combustible, Integer>{
     
 }

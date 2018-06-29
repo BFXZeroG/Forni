@@ -12,6 +12,6 @@ import rentacars.webcomponent.forni.Forni.models.MedioPago;
  *
  * @author mxrni
  */
-public interface MedioPagoRepository extends CrudRepository<MedioPagoRepository, Integer> {
+public interface MedioPagoRepository extends CrudRepository<MedioPago, Integer> {
     
 }

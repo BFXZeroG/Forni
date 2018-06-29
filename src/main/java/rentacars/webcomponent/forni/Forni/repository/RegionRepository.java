@@ -12,6 +12,6 @@ import rentacars.webcomponent.forni.Forni.models.Region;
  *
  * @author mxrni
  */
-public interface RegionRepository extends CrudRepository<RegionRepository, Integer> {
+public interface RegionRepository extends CrudRepository<Region, Integer> {
     
 }

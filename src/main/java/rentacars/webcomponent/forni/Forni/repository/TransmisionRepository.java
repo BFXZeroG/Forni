@@ -13,6 +13,6 @@ import rentacars.webcomponent.forni.Forni.models.Transmision;
  *
  * @author mxrni
  */
-public interface TransmisionRepository extends CrudRepository<TransmisionRepository, Integer> {
+public interface TransmisionRepository extends CrudRepository<Transmision, Integer> {
     
 }

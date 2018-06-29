@@ -12,6 +12,6 @@ import rentacars.webcomponent.forni.Forni.models.Carroceria;
  *
  * @author mxrni
  */
-public interface CarroceriaRepository extends CrudRepository<CarroceriaRepository,Integer> {
+public interface CarroceriaRepository extends CrudRepository<Carroceria,Integer> {
     
 }
