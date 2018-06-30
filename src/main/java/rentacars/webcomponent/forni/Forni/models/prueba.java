@@ -10,5 +10,6 @@ package rentacars.webcomponent.forni.Forni.models;
  * @author Gerardo
  */
 public class prueba {
+    private int prueba;
     
 }
