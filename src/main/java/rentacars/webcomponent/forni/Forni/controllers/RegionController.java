@@ -8,6 +8,8 @@ package rentacars.webcomponent.forni.Forni.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import rentacars.webcomponent.forni.Forni.models.Region;
+import rentacars.webcomponent.forni.Forni.repository.RegionRepository;
 
 /**
  *
@@ -26,43 +29,71 @@ import rentacars.webcomponent.forni.Forni.models.Region;
 @RequestMapping("/region")
 public class RegionController {
     
-   @GetMapping()
-    public List<Region> list() {
-        return Region.listaRegion;
+    @Autowired
+    private RegionRepository RegionRepository;
+
+    @GetMapping()
+    public Iterable<Region> list() {
+
+        return RegionRepository.findAll();
     }
-    
+
     @GetMapping("/{id}")
-    public Region get(@PathVariable String id) {
-        Region Re = new Region();
-        return Re.buscaRegion(Integer.parseInt(id));
+    public ResponseEntity<Region> get(@PathVariable String id) {
+        Optional<Region> aOptional = RegionRepository.findById(Integer.parseInt(id));
+
+        if (aOptional.isPresent()) {
+            Region aEncontrado = aOptional.get();
+            return new ResponseEntity<>(aEncontrado, HttpStatus.FOUND);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
     }
-    
+
     @PutMapping("/{id}")
     public ResponseEntity<Region> put(@PathVariable String id, @RequestBody Region editarRegion) {
-         Region Re = new Region();
-         
-        return new ResponseEntity<>(Re.editarRegion(Integer.parseInt(id), editarRegion),HttpStatus.OK);
+
+        Optional<Region> aOptional = RegionRepository.findById(Integer.parseInt(id));
+
+        if (aOptional.isPresent()) {
+            Region aEncontrado = aOptional.get();
+
+            editarRegion.setIdRegion(aEncontrado.getIdRegion());
+            RegionRepository.save(editarRegion);
+            return new ResponseEntity<>(editarRegion, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
     }
-    
+
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Region nuevoRegion) {
-        Region Re = new Region();
-        if (Re.nuevaRegion(nuevoRegion)) {
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else  return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        
-        
+        nuevoRegion = RegionRepository.save(nuevoRegion);
+
+        Optional<Region> aOptional = RegionRepository.findById(nuevoRegion.getIdRegion());
+
+        if (aOptional.isPresent()) {
+            Region aEncontrado = aOptional.get();
+            return new ResponseEntity<>(aEncontrado, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
-        Region Re = new Region();
-        
-        if (Re.eliminarRegion(Integer.parseInt(id))) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else  return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        
-        
+        Optional<Region> aOptional = RegionRepository.findById(Integer.parseInt(id));
+
+        if (aOptional.isPresent()) {
+            Region aEncontrado = aOptional.get();
+
+            RegionRepository.deleteById(aEncontrado.getIdRegion());
+            return new ResponseEntity<>(aEncontrado, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
+
     }
     
 }

@@ -8,6 +8,8 @@ package rentacars.webcomponent.forni.Forni.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import rentacars.webcomponent.forni.Forni.models.Combustible;
+import rentacars.webcomponent.forni.Forni.repository.CombustibleRepository;
 
 /**
  *
@@ -26,43 +29,71 @@ import rentacars.webcomponent.forni.Forni.models.Combustible;
 @RequestMapping("/combustible")
 public class CombustibleController {
     
-   @GetMapping()
-    public List<Combustible> list() {
-        return Combustible.combustible;
+@Autowired
+    private CombustibleRepository CombustibleRepository;
+
+    @GetMapping()
+    public Iterable<Combustible> list() {
+
+        return CombustibleRepository.findAll();
     }
-    
+
     @GetMapping("/{id}")
-    public Combustible get(@PathVariable String id) {
-        Combustible Co = new Combustible();
-        return Co.buscaCombustible(Integer.parseInt(id));
+    public ResponseEntity<Combustible> get(@PathVariable String id) {
+        Optional<Combustible> aOptional = CombustibleRepository.findById(Integer.parseInt(id));
+
+        if (aOptional.isPresent()) {
+            Combustible aEncontrado = aOptional.get();
+            return new ResponseEntity<>(aEncontrado, HttpStatus.FOUND);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
     }
-    
+
     @PutMapping("/{id}")
     public ResponseEntity<Combustible> put(@PathVariable String id, @RequestBody Combustible editarCombustible) {
-         Combustible Co = new Combustible();
-         
-        return new ResponseEntity<>(Co.editarCombustible(Integer.parseInt(id), editarCombustible),HttpStatus.OK);
+
+        Optional<Combustible> aOptional = CombustibleRepository.findById(Integer.parseInt(id));
+
+        if (aOptional.isPresent()) {
+            Combustible aEncontrado = aOptional.get();
+
+            editarCombustible.setIdCombustible(aEncontrado.getIdCombustible());
+            CombustibleRepository.save(editarCombustible);
+            return new ResponseEntity<>(editarCombustible, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
     }
-    
+
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Combustible nuevoCombustible) {
-        Combustible Co = new Combustible();
-        if (Co.nuevocombustible(nuevoCombustible)) {
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else  return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        
-        
+        nuevoCombustible = CombustibleRepository.save(nuevoCombustible);
+
+        Optional<Combustible> aOptional = CombustibleRepository.findById(nuevoCombustible.getIdCombustible());
+
+        if (aOptional.isPresent()) {
+            Combustible aEncontrado = aOptional.get();
+            return new ResponseEntity<>(aEncontrado, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
-        Combustible Co = new Combustible();
-        
-        if (Co.eliminarCombustible(Integer.parseInt(id))) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else  return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        
-        
+        Optional<Combustible> aOptional = CombustibleRepository.findById(Integer.parseInt(id));
+
+        if (aOptional.isPresent()) {
+            Combustible aEncontrado = aOptional.get();
+
+           CombustibleRepository.deleteById(aEncontrado.getIdCombustible());
+            return new ResponseEntity<>(aEncontrado, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
+
     }
     
 }
